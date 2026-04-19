@@ -3,34 +3,19 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Shatbly.Models
 {
-    public enum UserRole
+    public class User : IdentityUser
     {
-        Client,
-        Worker,
-        Admin
-    }
-    public class User : IdentityUser<int>
-    {
-        [Key]
-        public int Id { get; set; }
         [Required]
         [MaxLength(150)]
-        public string Name { get; set; }
+        public string FName { get; set; }
         [Required]
-        [MaxLength(255)]
-        [EmailAddress]
-        public string Email { get; set; }
+        [MaxLength(150)]
+        public string LName { get; set; }
         [Required]
-        [MaxLength(20)]
-        [Phone]
+                [Phone]
         public string Phone { get; set; }
-        [Required]
-        [MaxLength(512)]
-        public string PasswordHash { get; set; }
-        [Required]
-        public UserRole Role { get; set; }
-        public bool IsActive { get; set; } = true;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public string? Address { get; set; }
+
         public WorkerProfile WorkerProfile { get; set; }  
         public Wallet Wallet { get; set; }                
 

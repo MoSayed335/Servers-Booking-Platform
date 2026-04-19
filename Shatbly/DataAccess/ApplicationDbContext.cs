@@ -5,7 +5,7 @@ using Shatbly.Models;
 
 namespace Shatbly.DataAccess
 {
-    public class ApplicationDbContext : IdentityDbContext<User , IdentityRole<int> , int>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -65,7 +65,7 @@ namespace Shatbly.DataAccess
             modelBuilder.Entity<WorkerProfile>()
                 .HasOne(wp => wp.User)
                 .WithOne(u => u.WorkerProfile)
-                .HasForeignKey<WorkerProfile>(wp => wp.Id);
+                .HasForeignKey<WorkerProfile>(wp => wp.UserId);
             modelBuilder.Entity<Booking>()
                 .HasOne(b => b.Client)
                 .WithMany(u => u.ClientBookings)

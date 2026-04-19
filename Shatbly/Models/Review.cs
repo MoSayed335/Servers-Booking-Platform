@@ -31,11 +31,11 @@ namespace Shatbly.Models
         [ForeignKey(nameof(BookingId))]
         public Booking Booking { get; set; }
         [Required]
-        public int ReviewerId { get; set; }
+        public string ReviewerId { get; set; }
 
         [ForeignKey(nameof(ReviewerId))]
         public User Reviewer { get; set; }
-        public int RevieweeId { get; set; }
+        public string RevieweeId { get; set; }
         [ForeignKey(nameof(RevieweeId))]
         public User Reviewee { get; set; }
 

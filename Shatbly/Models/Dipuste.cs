@@ -35,11 +35,11 @@ namespace Shatbly.Models
         public  Booking Booking { get; set; }
 
         [Required]
-        public int RaisedById { get; set; }
+        public string RaisedById { get; set; }
         [ForeignKey(nameof(RaisedById))]
         public  User RaisedBy { get; set; }
         [Required]
-        public int AgainstId { get; set; }
+        public string AgainstId { get; set; }
         [ForeignKey(nameof(AgainstId))]
         public  User Against { get; set; }
     }

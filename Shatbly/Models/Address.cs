@@ -20,9 +20,9 @@ namespace Shatbly.Models
         public double? Lng { get; set; }
         public bool IsDefault { get; set; } = false;
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey(nameof(UserId))]
-        public virtual User User { get; set; }
+        public  User User { get; set; }
         public ICollection<Booking> Bookings { get; set; }
     }
 }

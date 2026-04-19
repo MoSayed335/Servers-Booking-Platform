@@ -27,12 +27,12 @@ namespace Shatbly.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [Required]
-        public int ReferrerId { get; set; }
+        public string ReferrerId { get; set; }
         [ForeignKey(nameof(ReferrerId))]
-        public virtual User Referrer { get; set; }
+        public  User Referrer { get; set; }
 
         [Required]
-        public int ReferredId { get; set; }
+        public string ReferredId { get; set; }
         [ForeignKey(nameof(ReferredId))]
         public User Referred { get; set; }
     }

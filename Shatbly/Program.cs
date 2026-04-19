@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Shatbly.DataAccess;
+using Shatbly.Utilities.Dbintializes;
 
 namespace Shatbly
 {
@@ -9,14 +11,40 @@ namespace Shatbly
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
-
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.Password.RequiredLength = 8;
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+
+            })
+               .AddEntityFrameworkStores<ApplicationDbContext>()
+               .AddDefaultTokenProviders();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Identity/Account/Login";
+                options.LogoutPath = "/Identity/Account/Logout";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.ExpireTimeSpan = TimeSpan.FromDays(14);
+                options.SlidingExpiration = true;
+            });
+            builder.Services.AddScoped<IRepository<OTP_Verification>, Repository<OTP_Verification>>();
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IDbintialize, Dbintialize>();
+
+            builder.Services.AddScoped<IAccountService, Services.AccountService>();
+
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -29,6 +57,9 @@ namespace Shatbly
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            var scope = app.Services.CreateScope();
+            var Service = scope.ServiceProvider.GetService<IDbintialize>();
+            Service.Intializer();
 
             app.UseAuthorization();
 

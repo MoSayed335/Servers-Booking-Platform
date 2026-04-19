@@ -35,7 +35,7 @@ namespace Shatbly.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         [Required]
-        public int ClientId { get; set; }
+        public string ClientId { get; set; }
         [ForeignKey(nameof(ClientId))]
         public User Client { get; set; }
         [Required]

@@ -13,7 +13,7 @@ namespace Shatbly.Models
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }
 

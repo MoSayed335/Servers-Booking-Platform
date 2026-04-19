@@ -22,7 +22,7 @@ namespace Shatbly.Models
         [Required]
         public Platform Platform { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }
     }

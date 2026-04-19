@@ -23,13 +23,13 @@ namespace Shatbly.Models
         public Booking Booking { get; set; }
 
         [Required]
-        public int SenderId { get; set; }
+        public string SenderId { get; set; }
 
         [ForeignKey(nameof(SenderId))]
         public  User Sender { get; set; }
 
         [Required]
-        public int ReceiverId { get; set; }
+        public string ReceiverId { get; set; }
         [ForeignKey(nameof(ReceiverId))]
         public  User Receiver { get; set; }
     }

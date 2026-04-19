@@ -6,7 +6,6 @@ namespace Shatbly.Models
     public class WorkerProfile
     {
         [Key]
-        [ForeignKey(nameof(User))]
         public int Id { get; set; }
 
         public string Bio { get; set; }
@@ -24,6 +23,8 @@ namespace Shatbly.Models
         public bool AcceptsOnline { get; set; } = false;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        [ForeignKey(nameof(User))]
+        public string UserId { get; set; }
         public User User { get; set; }
 
         public WorkerService WorkerServices { get; set; } 
