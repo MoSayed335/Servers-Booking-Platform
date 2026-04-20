@@ -36,7 +36,6 @@
     <Folder Include="Areas\Customer\Controllers\" />
     <Folder Include="Areas\Customer\Views\" />
     <Folder Include="Areas\Identity\Controllers\" />
-    <Folder Include="Areas\Identity\Views\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Services\IServices\" />
   </ItemGroup>
