@@ -9,7 +9,7 @@
 
         public const string ROLE_SUPER_ADMIN = "SuperAdmin";
         public const string ROLE_ADMIN = "Admin";
-        public const string ROLE_EMPLOYEE = "Worker";
+        public const string ROLE_WORKER = "Worker";
         public const string ROLE_CUSTOMER = "Customer";
     }
 }

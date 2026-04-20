@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Shatbly.DataAccess;
+using Shatbly.Utilities.Dbintializes;
 
 namespace Shatbly
 {
@@ -10,10 +11,6 @@ namespace Shatbly
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
-
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -39,6 +36,10 @@ namespace Shatbly
                 options.ExpireTimeSpan = TimeSpan.FromDays(14);
                 options.SlidingExpiration = true;
             });
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IDbintialize, Dbintialize>();
             builder.Services.AddScoped<IRepository<OTP_Verification>, Repository<OTP_Verification>>();
 
             builder.Services.AddScoped<IAccountService, Services.AccountService>();
@@ -57,7 +58,9 @@ namespace Shatbly
 
             app.UseHttpsRedirection();
             app.UseRouting();
-
+            var scope = app.Services.CreateScope();
+            var dbintialize = scope.ServiceProvider.GetRequiredService<IDbintialize>();
+            dbintialize.Intializer().Wait();
             app.UseAuthorization();
 
             app.MapStaticAssets();

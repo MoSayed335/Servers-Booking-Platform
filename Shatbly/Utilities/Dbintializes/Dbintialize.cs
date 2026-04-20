@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 namespace Shatbly.Utilities.Dbintializes
 {
     public class Dbintialize : IDbintialize
