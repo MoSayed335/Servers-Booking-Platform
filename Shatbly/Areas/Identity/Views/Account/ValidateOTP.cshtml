@@ -1,4 +1,4 @@
-﻿
+﻿@model ValidateOTPVM
 
     <title>Shtbly | شطبلي - التحقق من الهوية</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
@@ -54,9 +54,10 @@
                     <p class="text-muted small"><i class="bi bi-envelope me-1"></i>تم الإرسال إلى بريدك الإلكتروني المسجّل.</p>
                 </div>
 
-                <form novalidate id="verifyForm" autocomplete="off">
-                    <!-- Hidden UserId -->
-                    <input type="hidden" id="userId" name="userId" value="">
+                <form asp-action="ValidateOTP" method="post" novalidate id="verifyForm" autocomplete="off">
+                   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="UserId" />
 
                     <div class="mb-4">
                         <label class="form-label fw-bold d-block text-center mb-3">رمز التحقق (OTP)</label>
@@ -72,7 +73,7 @@
                         </div>
 
                         <!-- Hidden combined input for form submission -->
-                        <input type="hidden" id="code" name="code">
+                        <input type="hidden" asp-for="OTP">
                         <div class="text-center mt-2 d-none text-danger small" id="otpError">يرجى إدخال الرمز المكوّن من 6 أرقام كاملاً.</div>
                     </div>
 
@@ -84,9 +85,9 @@
                         </div>
                         <div id="expiredSection" class="d-none">
                             <p class="small text-danger mb-1"><i class="bi bi-clock-history me-1"></i>انتهت صلاحية الرمز.</p>
-                            <button type="button" class="btn btn-outline-primary btn-sm fw-bold" id="resendBtn" style="border-radius:8px;">
+                            <a asp-action="ResendOTP" class="btn btn-outline-primary btn-sm fw-bold" id="resendBtn" style="border-radius:8px;">
                                 <i class="bi bi-arrow-clockwise me-1"></i> إعادة الإرسال
-                            </button>
+                            </a>
                         </div>
                     </div>
 
@@ -97,7 +98,7 @@
                     </div>
 
                     <div class="text-center">
-                        <a href="/Account/Login" class="small text-primary text-decoration-none fw-bold">
+                        <a asp-action="Login" class="small text-primary text-decoration-none fw-bold">
                             <i class="bi bi-arrow-right me-1"></i> العودة إلى تسجيل الدخول
                         </a>
                     </div>
