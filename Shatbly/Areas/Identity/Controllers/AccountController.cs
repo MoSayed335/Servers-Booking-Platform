@@ -133,9 +133,17 @@ namespace Shatbly.Areas.Identity.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 return View(model);
             }
-
-            TempData["success-notification"] = $"Welcome back {user.UserName}!";
-            return RedirectToAction("Index", "Home", new { area = "Customer" });
+            if (await _userManager.IsInRoleAsync(user, SD.ROLE_WORKER))
+            {
+                TempData["success-notification"] = $"Welcome back {user.UserName}!";
+                return RedirectToAction("Index" , "Home" , new {area = "Worker"});
+            }
+            else if (await _userManager.IsInRoleAsync(user, SD.ROLE_CUSTOMER))
+            {
+                TempData["success-notification"] = $"Welcome back {user.UserName}!";
+                return RedirectToAction("Index", "Home", new { area = "Customer" });
+            }
+            return RedirectToAction("Index", "Home");
         }
         [HttpGet]
         public IActionResult ResendEmailConfirmation()

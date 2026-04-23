@@ -31,9 +31,12 @@
   <ItemGroup>
     <Folder Include="Areas\Worker\Controllers\" />
     <Folder Include="Areas\Worker\Views\" />
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Views\" />
     <Folder Include="Areas\Customer\Controllers\" />
     <Folder Include="Areas\Identity\Controllers\" />
     <Folder Include="Areas\Identity\Views\" />
     <Folder Include="Services\IServices\" />
+    <Folder Include="wwwroot\img\worker\worker_cv\" />
   </ItemGroup>
 </Project>
