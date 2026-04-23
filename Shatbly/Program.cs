@@ -39,6 +39,8 @@ namespace Shatbly
             builder.Services.AddScoped<IRepository<OTP_Verification>, Repository<OTP_Verification>>();
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IRepository<WorkerProfile> , Repository<WorkerProfile>>();
+
             builder.Services.AddScoped<IDbintialize, Dbintialize>();
 
             builder.Services.AddScoped<IAccountService, Services.AccountService>();
