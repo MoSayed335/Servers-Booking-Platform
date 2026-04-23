@@ -1,0 +1,43 @@
+﻿@model Shatbly.ViewModels.BookingVM
+
+
+@{
+    ViewBag.Title = "Bookings";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Bookings</h2>
+    <a asp-area="Admin" asp-controller="Booking" asp-action="Create" class="btn btn-primary">Create Booking</a>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Client</th>
+            <th>Worker</th>
+            <th>Status</th>
+            <th>Scheduled At</th>
+            <th>Total Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Bookings)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Client?.UserName</td>
+                <td>@item.WorkerId</td>
+                <td>@item.Status</td>
+                <td>@item.ScheduledAt.ToString("g")</td>
+                <td>@item.TotalPrice</td>
+                <td>
+                    <a asp-area="Admin" asp-controller="Booking" asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Details</a>
+                    <a asp-area="Admin" asp-controller="Booking" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-area="Admin" asp-controller="Booking" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

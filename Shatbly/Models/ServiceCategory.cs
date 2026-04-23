@@ -19,10 +19,10 @@ namespace Shatbly.Models
         public string Icon { get; set; }
 
         public bool IsActive { get; set; } = true;
-        public ICollection<WorkerService> WorkerServices { get; set; }
-        public ICollection<Coupon> Coupons { get; set; }
-        public ICollection<BookingItem> BookingItems { get; set; }
-        public ICollection<Promotion> Promotions { get; set; }
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<WorkerService>? WorkerServices { get; set; }
+        public ICollection<Coupon>? Coupons { get; set; }
+        public ICollection<BookingItem>? BookingItems { get; set; }
+        public ICollection<Promotion>? Promotions { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
     }
 }

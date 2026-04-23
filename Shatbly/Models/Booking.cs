@@ -51,7 +51,7 @@ namespace Shatbly.Models
         public Coupon Coupon { get; set; }
         public int? PromoCodeId { get; set; }
         [ForeignKey(nameof(PromoCodeId))]
-        public PromotionCode PromoCode { get; set; }
+        public PromotionCode? PromoCode { get; set; }
         public Payment Payment { get; set; }
         public Review Review { get; set; }
         public ICollection<BookingItem> BookingItems { get; set; } 

@@ -1,0 +1,25 @@
+﻿@model Booking
+
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <h3 class="text-danger mb-3">Delete Booking</h3>
+        <p>Are you sure you want to delete booking <strong>#@Model.Id</strong>?</p>
+
+        <dl class="row">
+            <dt class="col-sm-3">Client</dt>
+            <dd class="col-sm-9">@Model.Client?.UserName</dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@Model.Status</dd>
+
+            <dt class="col-sm-3">Total Price</dt>
+            <dd class="col-sm-9">@Model.TotalPrice</dd>
+        </dl>
+
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-area="Admin" asp-controller="Booking" asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
