@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+
+    var stats = new[]
+    {
+        new { Title = "Total Users", Value = "12,480", Icon = "fa-solid fa-users", IconBgClass = "bg-soft-primary", Trend = "+8.2%", TrendClass = "text-success" },
+        new { Title = "Total Services", Value = "326", Icon = "fa-solid fa-briefcase", IconBgClass = "bg-soft-warning", Trend = "+3.4%", TrendClass = "text-success" },
+        new { Title = "Total Orders", Value = "1,942", Icon = "fa-solid fa-cart-shopping", IconBgClass = "bg-soft-success", Trend = "+11.6%", TrendClass = "text-success" },
+        new { Title = "Revenue", Value = "$48,920", Icon = "fa-solid fa-dollar-sign", IconBgClass = "bg-soft-danger", Trend = "-1.2%", TrendClass = "text-danger" }
+    };
+
+    var recentOrders = new[]
+    {
+        new { OrderId = "#ORD-1001", User = "Omar Khaled", Service = "Website Design", Status = "Completed", Date = "21 Apr 2026" },
+        new { OrderId = "#ORD-1002", User = "Sara Adel", Service = "SEO Package", Status = "Pending", Date = "20 Apr 2026" },
+        new { OrderId = "#ORD-1003", User = "Ahmed Nabil", Service = "Hosting Plan", Status = "Processing", Date = "20 Apr 2026" },
+        new { OrderId = "#ORD-1004", User = "Lina Samir", Service = "Mobile App UI", Status = "Completed", Date = "19 Apr 2026" },
+        new { OrderId = "#ORD-1005", User = "Youssef Ali", Service = "Maintenance", Status = "Cancelled", Date = "18 Apr 2026" }
+    };
+}
+
+<div class="page-header mb-4">
+    <div>
+        <h2 class="page-title">Dashboard Overview</h2>
+        <p class="page-subtitle mb-0">Welcome back, here is what’s happening across your platform today.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <button class="btn btn-light btn-soft">
+            <i class="fa-solid fa-download me-2"></i>Export
+        </button>
+        <button class="btn btn-primary btn-soft">
+            <i class="fa-solid fa-plus me-2"></i>Create Report
+        </button>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    @foreach (var item in stats)
+    {
+        <partial name="~/Areas/Admin/Views/Shared/_StatCard.cshtml" model="item" />
+    }
+</div>
+<div class="row g-4 mb-4">
+    <div class="col-12 col-xl-8">
+        <div class="dashboard-card chart-card">
+            <div class="section-head">
+                <div>
+                    <h5 class="mb-1">Orders Over Time</h5>
+                    <p class="text-muted mb-0">Monthly trend for new orders</p>
+                </div>
+            </div>
+            <div class="chart-wrap chart-lg">
+                <canvas id="ordersLineChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-xl-4">
+        <div class="dashboard-card chart-card h-100">
+            <div class="section-head">
+                <div>
+                    <h5 class="mb-1">User Distribution</h5>
+                    <p class="text-muted mb-0">Users by plan type</p>
+                </div>
+            </div>
+            <div class="chart-wrap chart-md">
+                <canvas id="usersPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="dashboard-card chart-card">
+            <div class="section-head">
+                <div>
+                    <h5 class="mb-1">Services Usage</h5>
+                    <p class="text-muted mb-0">Most requested services this week</p>
+                </div>
+            </div>
+            <div class="chart-wrap chart-md">
+                <canvas id="servicesBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-card">
+    <div class="section-head mb-3">
+        <div>
+            <h5 class="mb-1">Recent Orders</h5>
+            <p class="text-muted mb-0">Latest transactions and service requests</p>
+        </div>
+        <button class="btn btn-light btn-soft">View All</button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table orders-table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in recentOrders)
+                {
+                    var badgeClass = "bg-secondary-subtle text-secondary";
+                    if (order.Status == "Completed") { badgeClass = "bg-success-subtle text-success"; }
+                    if (order.Status == "Pending") { badgeClass = "bg-warning-subtle text-warning"; }
+                    if (order.Status == "Processing") { badgeClass = "bg-info-subtle text-info"; }
+                    if (order.Status == "Cancelled") { badgeClass = "bg-danger-subtle text-danger"; }
+
+                    <tr>
+                        <td class="fw-semibold">@order.OrderId</td>
+                        <td>@order.User</td>
+                        <td>@order.Service</td>
+                        <td>
+                            <span class="badge rounded-pill custom-badge @badgeClass">@order.Status</span>
+                        </td>
+                        <td class="text-muted">@order.Date</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const gridColor = 'rgba(148, 163, 184, 0.18)';
+        const labelColor = '#64748b';
+
+        new Chart(document.getElementById('ordersLineChart'), {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                datasets: [{
+                    label: 'Orders',
+                    data: [120, 190, 170, 220, 260, 240, 310],
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37, 99, 235, 0.12)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#2563eb',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: labelColor }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: gridColor },
+                        ticks: { color: labelColor }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('servicesBarChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Design', 'SEO', 'Hosting', 'Marketing', 'Support', 'Consulting'],
+                datasets: [{
+                    label: 'Usage',
+                    data: [65, 48, 82, 56, 44, 38],
+                    backgroundColor: ['#0f172a', '#2563eb', '#14b8a6', '#f59e0b', '#8b5cf6', '#ef4444'],
+                    borderRadius: 10,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: labelColor }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: gridColor },
+                        ticks: { color: labelColor }
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('usersPieChart'), {
+            type: 'pie',
+            data: {
+                labels: ['Free', 'Basic', 'Premium'],
+                datasets: [{
+                    data: [42, 33, 25],
+                    backgroundColor: ['#cbd5e1', '#2563eb', '#0f172a'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: labelColor,
+                            usePointStyle: true,
+                            boxWidth: 10,
+                            padding: 18
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

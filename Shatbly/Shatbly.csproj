@@ -29,17 +29,24 @@
     <PackageReference Include="Stripe.net" Version="51.0.0" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Folder Include="Areas\Admin\Views\" />
+=======
+>>>>>>> db5819d01fd0769b1137b6bcb2e7b3e7a9d932d8
     <Folder Include="Areas\Worker\Controllers\" />
     <Folder Include="Areas\Worker\Views\" />
     <Folder Include="Areas\Customer\Controllers\" />
-    <Folder Include="Areas\Customer\Views\" />
     <Folder Include="Areas\Identity\Controllers\" />
 <<<<<<< Updated upstream
     <Folder Include="Areas\Identity\Views\" />
+<<<<<<< HEAD
     <Folder Include="ViewModels\" />
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> db5819d01fd0769b1137b6bcb2e7b3e7a9d932d8
     <Folder Include="Services\IServices\" />
+    <Folder Include="wwwroot\img\banners\" />
+    <Folder Include="wwwroot\img\worker\worker_cv\" />
   </ItemGroup>
 </Project>

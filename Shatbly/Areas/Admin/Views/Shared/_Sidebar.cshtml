@@ -1,0 +1,66 @@
+﻿@{
+    var currentArea = ViewContext.RouteData.Values["area"]?.ToString();
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+<aside class="sidebar-panel">
+    <div class="sidebar-brand">
+        <div class="brand-icon">
+            <i class="fa-solid fa-layer-group"></i>
+        </div>
+        <div>
+            <h5 class="mb-0">AdminPro</h5>
+            <small>Control Center</small>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav mt-4">
+        <a asp-area="Admin" asp-controller="Home" asp-action="Index"
+           class="nav-item @(currentController == "Dashboard" ? "active" : "")">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a asp-area="Admin" asp-controller="User" asp-action="Index"
+           class="nav-item @(currentController == "User" ? "active" : "")">
+            <i class="fa-solid fa-users"></i>
+            <span>Users</span>
+        </a>
+
+        <a asp-area="Admin" asp-controller="Coupon" asp-action="Index"
+           class="nav-item @(currentController == "Coupon" ? "active" : "")">
+            <i class="fa-solid fa-ticket"></i>
+            <span>Coupons</span>
+        </a>
+
+        <a asp-area="Admin" asp-controller="Booking" asp-action="Index"
+           class="nav-item @(currentController == "Booking" ? "active" : "")">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>Booking</span>
+        </a>
+
+        <a asp-area="Admin" asp-controller="Service" asp-action="Index"
+           class="nav-item @(currentController == "Service" ? "active" : "")">
+            <i class="fa-solid fa-briefcase"></i>
+            <span>Services</span>
+        </a>
+
+        <a asp-area="Admin" asp-controller="Order" asp-action="Index"
+           class="nav-item @(currentController == "Order" ? "active" : "")">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Orders</span>
+        </a>
+
+        <a asp-area="Admin" asp-controller="Report" asp-action="Index"
+           class="nav-item @(currentController == "Report" ? "active" : "")">
+            <i class="fa-solid fa-chart-column"></i>
+            <span>Reports</span>
+        </a>
+
+        <a asp-area="Admin" asp-controller="Setting" asp-action="Index"
+           class="nav-item @(currentController == "Setting" ? "active" : "")">
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+        </a>
+    </nav>
+</aside>

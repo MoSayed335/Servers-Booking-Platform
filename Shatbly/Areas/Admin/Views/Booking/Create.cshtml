@@ -1,0 +1,87 @@
+﻿@model Booking
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="ScheduledAt" class="form-label"></label>
+                    <input asp-for="ScheduledAt" type="datetime-local" class="form-control" />
+                    <span asp-validation-for="ScheduledAt" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="DurationHours" class="form-label"></label>
+                    <input asp-for="DurationHours" class="form-control" />
+                    <span asp-validation-for="DurationHours" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="TotalPrice" class="form-label"></label>
+                    <input asp-for="TotalPrice" class="form-control" />
+                    <span asp-validation-for="TotalPrice" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="DiscountAmt" class="form-label"></label>
+                    <input asp-for="DiscountAmt" class="form-control" />
+                    <span asp-validation-for="DiscountAmt" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Status" class="form-label"></label>
+                    <select asp-for="Status" asp-items="ViewBag.StatusList" class="form-select"></select>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="ClientId" class="form-label"></label>
+                    <select asp-for="ClientId" asp-items="ViewBag.ClientId" class="form-select">
+                        <option value="">Select Client</option>
+                    </select>
+                    <span asp-validation-for="ClientId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="WorkerId" class="form-label"></label>
+                    <select asp-for="WorkerId" asp-items="ViewBag.WorkerId" class="form-select">
+                        <option value="">Select Worker</option>
+                    </select>
+                    <span asp-validation-for="WorkerId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="AddressId" class="form-label"></label>
+                    <select asp-for="AddressId" asp-items="ViewBag.AddressId" class="form-select">
+                        <option value="">Select Address</option>
+                    </select>
+                    <span asp-validation-for="AddressId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="CouponId" class="form-label"></label>
+                    <select asp-for="CouponId" asp-items="ViewBag.CouponId" class="form-select">
+                        <option value="">Select Coupon</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="PromoCodeId" class="form-label"></label>
+                    <select asp-for="PromoCodeId" asp-items="ViewBag.PromoCodeId" class="form-select">
+                        <option value="">Select Promo Code</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-success">Save</button>
+                <a asp-area="Admin" asp-controller="Booking" asp-action="Index" class="btn btn-secondary">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

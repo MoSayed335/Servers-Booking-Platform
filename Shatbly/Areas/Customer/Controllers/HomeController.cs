@@ -4,6 +4,7 @@ using Shatbly.Models;
 
 namespace Shatbly.Controllers
 {
+    [Area(SD.CUSTOMER_AREA)]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

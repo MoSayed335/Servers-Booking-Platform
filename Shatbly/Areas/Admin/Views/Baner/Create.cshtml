@@ -1,0 +1,52 @@
+﻿@model Banner
+<div class="container">
+    <div class="row mb-3 align-items-center my-3">
+        <div class="col-md-6">
+            <h3 class="display-6">Create new Brand</h3>
+        </div>
+    </div>
+
+    <div class="row my-3">
+        <div class="col-12">
+            <form method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label asp-for="Title" class="form-label">Title</label>
+                    <input asp-for="Title" class="form-control" id="Title" placeholder="Enter banner title" name="title">
+                </div>
+                <div class="mb-3">
+                    <label asp-for="LinkUrl" class="form-label">Link URL</label>
+                    <input asp-for="LinkUrl" class="form-control" id="LinkUrl" placeholder="Enter link URL" name="linkUrl">
+                </div>
+                <div class="mb-3">
+                    <label asp-for="StartDate" class="form-label">Start Date</label>
+                    <input asp-for="StartDate" class="form-control" id="StartDate" placeholder="Enter start date" name="startDate" type="date">
+                </div>
+                <div class="mb-3">
+                    <label asp-for="EndDate" class="form-label">End Date</label>
+                    <input asp-for="EndDate" class="form-control" id="EndDate" placeholder="Enter end date" name="endDate" type="date">
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ImageUrl" class="form-label">Banner Image</label>
+                    <input asp-for="ImageUrl" type="file" class="form-control" id="BannerImage" placeholder="Enter banner image" name="img" multiple>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Target" class="form-label">Target</label>
+                    <select asp-for="Target" class="form-control" asp-items="Html.GetEnumSelectList<BannerTarget>()">
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="IsActive" class="form-label">Status</label>
+                    <select asp-for="IsActive" class="form-select" id="Status">
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="~/Views/Shared/_NotificationPartial.cshtml" />
+    <partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml" />
+}

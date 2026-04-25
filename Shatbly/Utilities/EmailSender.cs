@@ -12,7 +12,7 @@ namespace Shatbly.Utilities
             {
                 EnableSsl = true,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("ahmedwebdevelop2@gmail.com", "qxua yvou nyfl hxvg"),
+                Credentials = new NetworkCredential("ahmedwebdevelop2@gmail.com", "xdtw tjcs ypji aibv"),
 
             };
             var mailMessage = new MailMessage("ahmedwebdevelop2@gmail.com", email, subject, htmlMessage)
