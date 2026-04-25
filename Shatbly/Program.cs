@@ -49,6 +49,8 @@ namespace Shatbly
              builder.Services.AddScoped<IRepository<Coupon>, Repository<Coupon>>();
              builder.Services.AddScoped<IRepository<PromotionCode>, Repository<PromotionCode>>();
             builder.Services.AddScoped<IRepository<Banner>, Repository<Banner>>();
+            builder.Services.AddScoped<IRepository<WorkerService>, Repository<WorkerService>>();
+            builder.Services.AddScoped<IRepository<ServiceCategory>, Repository<ServiceCategory>>();
 
             builder.Services.AddScoped<IAccountService, Services.AccountService>();
 

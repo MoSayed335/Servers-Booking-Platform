@@ -1,0 +1,168 @@
+@using Shatbly.ViewModels
+@model WorkerServicesVM
+
+@{
+    ViewData["Title"] = "Worker Services";
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Worker Services</h2>
+            <p class="text-muted mb-0">Manage worker-service assignments, rates, and availability.</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="fa-solid fa-plus me-1"></i> Add Worker Service
+        </a>
+    </div>
+
+    <form asp-action="Index" method="get" class="row g-2 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="search" value="@Context.Request.Query["search"]" class="form-control" placeholder="Search by worker or category name" />
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Index" class="btn btn-outline-secondary">Reset</a>
+        </div>
+    </form>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Id</th>
+                            <th>Worker</th>
+                            <th>Category</th>
+                            <th>Hourly Rate</th>
+                            <th>Status</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model?.WorkerServices is not null && Model.WorkerServices.Any())
+                        {
+                            foreach (var item in Model.WorkerServices)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>
+                                        @if (item.Worker?.User is not null)
+                                        {
+                                            @($"{item.Worker.User.FName} {item.Worker.User.LName}")
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">N/A</span>
+                                        }
+                                    </td>
+                                    <td>@(item.Category?.NameEn ?? "N/A")</td>
+                                    <td>@item.HourlyRate.ToString("C")</td>
+                                    <td>
+                                        @if (item.IsActive)
+                                        {
+                                            <span class="badge bg-success">Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Inactive</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning text-white">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+
+                                        <button type="button"
+                                                class="btn btn-sm btn-danger js-delete-ws"
+                                                data-id="@item.Id"
+                                                data-name="@(item.Category?.NameEn ?? "this service")">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center py-4 text-muted">No worker services found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @if (Model is not null && Model.TotalPages > 1)
+    {
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(Model.CurrentPage <= 1 ? "disabled" : null)">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)" asp-route-search="@Context.Request.Query["search"]">Previous</a>
+                </li>
+
+                @for (int i = 1; i <= Convert.ToInt32(Model.TotalPages); i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : null)">
+                        <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-search="@Context.Request.Query["search"]">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @(Model.CurrentPage >= Model.TotalPages ? "disabled" : null)">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)" asp-route-search="@Context.Request.Query["search"]">Next</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".js-delete-ws").forEach(button => {
+                button.addEventListener("click", function () {
+                    const id = this.dataset.id;
+                    const name = this.dataset.name;
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: `Do you want to delete worker service "${name}"?`,
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, delete it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/Admin/WorkerService/Delete/${id}`, {
+                                method: "DELETE"
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "Worker service deleted successfully.",
+                                        icon: "success"
+                                    }).then(() => {
+                                        button.closest("tr").remove();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: "Error!",
+                                        text: "Failed to delete worker service.",
+                                        icon: "error"
+                                    });
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
