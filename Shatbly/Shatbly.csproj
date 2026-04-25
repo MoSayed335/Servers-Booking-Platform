@@ -35,6 +35,7 @@
     <Folder Include="Areas\Identity\Controllers\" />
     <Folder Include="Areas\Identity\Views\" />
     <Folder Include="Services\IServices\" />
+    <Folder Include="wwwroot\img\banners\" />
     <Folder Include="wwwroot\img\worker\worker_cv\" />
   </ItemGroup>
 </Project>

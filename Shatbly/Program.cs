@@ -48,6 +48,8 @@ namespace Shatbly
              builder.Services.AddScoped<IRepository<Booking>, Repository<Booking>>();
              builder.Services.AddScoped<IRepository<Coupon>, Repository<Coupon>>();
              builder.Services.AddScoped<IRepository<PromotionCode>, Repository<PromotionCode>>();
+            builder.Services.AddScoped<IRepository<Banner>, Repository<Banner>>();
+
             builder.Services.AddScoped<IAccountService, Services.AccountService>();
 
             builder.Services.AddTransient<IEmailSender, EmailSender>();
