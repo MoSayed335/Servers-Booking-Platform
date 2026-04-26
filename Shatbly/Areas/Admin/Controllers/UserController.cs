@@ -77,8 +77,11 @@ namespace Shatbly.Areas.Admin.Controllers
             }
             var user = new User
             {
+                FName = createUserVM.FName,
+                LName = createUserVM.LName,
                 UserName = createUserVM.UserName,
                 Email = createUserVM.Email,
+                Phone = createUserVM.Phone
             };
             var result = await _userManager.CreateAsync(user, createUserVM.Password);
             if (!result.Succeeded)
@@ -111,8 +114,11 @@ namespace Shatbly.Areas.Admin.Controllers
             return View(new EditUserVM
             {
                 Id = user.Id,
+                FName = user.FName,
+                LName = user.LName,
                 UserName = user.UserName,
                 Email = user.Email,
+                Phone = user.Phone,
                 RoleName = userRoles.FirstOrDefault(),
                 Roles = roles.AsEnumerable()
             });
@@ -135,6 +141,8 @@ namespace Shatbly.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+                user.FName = editUserVM.FName;
+            user.LName = editUserVM.LName;
             user.UserName = editUserVM.UserName;
             user.Email = editUserVM.Email;
             var result = await _userManager.UpdateAsync(user);

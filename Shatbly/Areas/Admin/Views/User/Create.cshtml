@@ -10,6 +10,17 @@
         <div class="col-12">
             <form method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="Id" />
+ <div class="mb-3">
+                    <label asp-for="FName" class="form-label">First Name</label>
+                    <input class="form-control" placeholder="Enter first name" asp-for="FName">
+                    <span asp-validation-for="FName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="LName" class="form-label">Last Name</label>
+                    <input class="form-control" placeholder="Enter last name" asp-for="LName">
+                    <span asp-validation-for="LName" class="text-danger"></span>
+                </div>
+           
                 <div class="mb-3">
                     <label for="UserName" class="form-label">User Name</label>
                     <input class="form-control" placeholder="Enter user name" asp-for="UserName">
@@ -20,6 +31,12 @@
                     <input class="form-control" placeholder="Enter email" asp-for="Email">
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
+                <div class="mb-3">
+                    <label asp-for="Phone" class="form-label">Phone</label>
+                    <input asp-for="Phone" type="tel" class="form-label" id="phone" name="phone"
+                           placeholder="01xxxxxxxxx" required pattern="^(01)[0-9]{9}$" autocomplete="tel">
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
                 <div class="mb-3">
                     <label for="Password" class="form-label">Password</label>
                     <input class="form-control" placeholder="Enter password" asp-for="Password">

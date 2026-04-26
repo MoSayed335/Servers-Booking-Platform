@@ -11,24 +11,42 @@
             <form method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="Id" />
                 <div class="mb-3">
-                    <label for=" UserName" class="form-label"> UserName</label>
-                    <input class="form-control" placeholder="Enter User Name" asp-for=" UserName"
-                           onchange="previewImage(event)"/>
-                    <span asp-validation-for=" UserName" class="text-danger"></span>
+                    <label asp-for="FName" class="form-label">First Name</label>
+                    <input class="form-control" placeholder="Enter First Name" asp-for="FName"
+                           onchange="previewImage(event)" />
+                    <span asp-validation-for="FName" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label for="Email" class="form-label">Email</label>
+                    <label asp-for="LName" class="form-label">Last Name</label>
+                    <input class="form-control" placeholder="Enter Last Name" asp-for="LName"
+                           onchange="previewImage(event)" />
+                    <span asp-validation-for="LName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="UserName" class="form-label">User Name</label>
+                    <input class="form-control" placeholder="Enter User Name" asp-for="UserName"
+                           onchange="previewImage(event)"/>
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Phone" class="form-label">Phone</label>
+                    <input asp-for="Phone" type="tel" class="form-label" id="phone" name="phone"
+                           placeholder="01xxxxxxxxx" required pattern="^(01)[0-9]{9}$" autocomplete="tel">
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
                     <input class="form-control" placeholder="Enter Email" asp-for="Email">
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label for="Password" class="form-label">Password</label>
+                    <label asp-for="Password" class="form-label">Password</label>
                     <input class="form-control" placeholder="Enter Password" asp-for="Password">
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label for="RoleName" class="form-label">Role</label>
+                    <label asp-for="RoleName" class="form-label">Role</label>
                     <select class="form-select" asp-for="RoleName">
                         @foreach (var role in Model.Roles)
                         {

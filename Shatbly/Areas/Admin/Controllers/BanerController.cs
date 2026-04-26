@@ -46,7 +46,9 @@ namespace Shatbly.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Banner banner, IFormFile img)
         {
-
+            ModelState.Remove("ImageUrl");
+            ModelState.Remove("User");
+            ModelState.Remove("UserId");
             if (!ModelState.IsValid)
                 return View(banner);
            

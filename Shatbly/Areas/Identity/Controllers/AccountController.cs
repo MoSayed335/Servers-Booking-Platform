@@ -143,7 +143,7 @@ namespace Shatbly.Areas.Identity.Controllers
                 TempData["success-notification"] = $"Welcome back {user.UserName}!";
                 return RedirectToAction("Index", "Home", new { area = "Customer" });
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home" , new { area = "Admin" });
         }
         [HttpGet]
         public IActionResult ResendEmailConfirmation()
