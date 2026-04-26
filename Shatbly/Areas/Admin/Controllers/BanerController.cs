@@ -79,7 +79,9 @@ namespace Shatbly.Areas.Admin.Controllers
         [Authorize(Roles = $" {SD.ROLE_SUPER_ADMIN}")]
         public async Task<IActionResult> Edit(Banner banner, IFormFile? img)
         {
-
+            ModelState.Remove("ImageUrl");
+            ModelState.Remove("User");
+            ModelState.Remove("UserId");
             if (!ModelState.IsValid)
                 return View(banner);
 
