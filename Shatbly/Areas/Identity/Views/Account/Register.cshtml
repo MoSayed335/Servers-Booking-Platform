@@ -1,0 +1,227 @@
+﻿@model RegisterVM
+
+
+    <title>Shtbly | شطبلي - إنشاء حساب جديد</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8f9fa; }
+        .hero-section {
+            background: linear-gradient(rgba(10, 38, 71, 0.85), rgba(10, 38, 71, 0.85)),
+                        url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070');
+            background-size: cover;
+            padding: 80px 0 140px;
+            color: white;
+            text-align: center;
+        }
+        .auth-card { border: none; border-radius: 25px; overflow: hidden; }
+        .password-strength-bar { height: 5px; border-radius: 5px; transition: all 0.3s; }
+    </style>
+
+
+<section class="container" style="margin-top: -60px;">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card auth-card shadow-lg p-4 p-md-5">
+
+            
+
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle mb-3" style="width:70px;height:70px;font-size:2rem;">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </div>
+                    <h2 class="fw-bold mb-1">إنشاء حساب جديد</h2>
+                    <p class="text-muted small">أدخل بياناتك لإنشاء حسابك على شطبلي</p>
+                </div>
+
+                <form asp-action="Register">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <!-- Name Row -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label  asp-for="FName"class="form-label fw-bold">الاسم الأول</label>
+                            <div class="input-group">
+                                <input asp-for="FName" class="form-control border-start-0 ps-0" id="firstName" name="firstName"
+                                       placeholder="محمد" required minlength="2" autocomplete="given-name">
+                                 <span asp-validation-for="FName" class="text-danger"></span>
+
+                                <div class="invalid-feedback">أدخل الاسم الأول (حرفان على الأقل).</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="LName" class="form-label fw-bold">الاسم الأخير</label>
+                            <div class="input-group">
+                              
+                                <input asp-for="LName" type="text" class="form-control border-start-0 ps-0" id="lastName" name="lastName"
+                                       placeholder="أحمد" required minlength="2" autocomplete="family-name">
+                                <span asp-validation-for="LName" class="text-danger"></span>
+
+                                <div class="invalid-feedback">أدخل الاسم الأخير (حرفان على الأقل).</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label  asp-for="Email" class="form-label fw-bold">البريد الإلكتروني</label>
+                        <div class="input-group">
+                            <input  asp-for="Email" type="email" class="form-control border-start-0 ps-0" id="email" name="email"
+                                   placeholder="example@mail.com" required autocomplete="email">
+                                                   <span asp-validation-for="Email" class="text-danger"></span>
+
+                            <div class="invalid-feedback">أدخل بريداً إلكترونياً صحيحاً.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Phone" class="form-label fw-bold">رقم الهاتف</label>
+                        <div class="input-group">
+                            
+                            <input asp-for="Phone" type="tel" class="form-control border-start-0 ps-0" id="phone" name="phone"
+                                   placeholder="01xxxxxxxxx" required pattern="^(01)[0-9]{9}$" autocomplete="tel">
+                                                   <span asp-validation-for="Phone" class="text-danger"></span>
+
+                            <div class="invalid-feedback">أدخل رقم هاتف مصري صحيح (01xxxxxxxxx).</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="UserName" class="form-label fw-bold">اسم المستخدم</label>
+                        <div class="input-group">
+                       
+                            <input asp-for="UserName" type="text" class="form-control border-start-0 ps-0" id="username" name="username"
+                                   placeholder="username123" required minlength="3" pattern="^[a-zA-Z0-9_]+$" autocomplete="username">
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                            <div class="invalid-feedback">اسم المستخدم يجب أن يحتوي على حروف وأرقام فقط (3 أحرف على الأقل).</div>
+                        </div>
+                        <div class="form-text text-muted small">يُسمح بالحروف الإنجليزية والأرقام والشرطة السفلية فقط.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label fw-bold">كلمة المرور</label>
+                        <div class="input-group">
+                           
+                            <input asp-for="Password" type="password" class="form-control border-start-0 ps-0" id="password" name="password"
+                                   placeholder="8 أحرف على الأقل" required minlength="8" autocomplete="new-password">
+                               <span asp-validation-for="Password" class="text-danger"></span>
+
+                            <button class="btn btn-outline-secondary border-start-0" type="button" id="togglePwd" tabindex="-1" aria-label="إظهار/إخفاء كلمة المرور">
+                                <i class="bi bi-eye" id="eyePwd"></i>
+                            </button>
+                            <div class="invalid-feedback">كلمة المرور يجب أن تكون 8 أحرف على الأقل.</div>
+                        </div>
+                        <!-- Strength Bar -->
+                        <div class="mt-2">
+                            <div class="progress" style="height:5px;border-radius:5px;">
+                                <div class="progress-bar" id="strengthBar" role="progressbar" style="width:0%" aria-label="قوة كلمة المرور"></div>
+                            </div>
+                            <small id="strengthText" class="text-muted"></small>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label  asp-for="ConfirmPassword" class="form-label fw-bold">تأكيد كلمة المرور</label>
+                        <div class="input-group">
+                          
+                            <input  asp-for="ConfirmPassword" type="password" class="form-control border-start-0 ps-0" id="confirmPassword" name="confirmPassword"
+                                   placeholder="أعد إدخال كلمة المرور" required autocomplete="new-password">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            <button class="btn btn-outline-secondary border-start-0" type="button" id="toggleConfirmPwd" tabindex="-1" aria-label="إظهار/إخفاء تأكيد كلمة المرور">
+                                <i class="bi bi-eye" id="eyeConfirm"></i>
+                            </button>
+                            <div class="invalid-feedback" id="confirmFeedback">يرجى تأكيد كلمة المرور.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">
+                                أوافق على <a href="#" class="text-primary text-decoration-none fw-bold">الشروط والأحكام</a>
+                                و<a href="#" class="text-primary text-decoration-none fw-bold">سياسة الخصوصية</a>
+                            </label>
+                            <div class="invalid-feedback">يجب الموافقة على الشروط والأحكام للمتابعة.</div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary fw-bold py-2" style="border-radius:12px;">
+                            <i class="bi bi-person-plus me-1"></i> إنشاء الحساب
+                        </button>
+                    </div>
+
+                    <div class="text-center">
+                        <span class="text-muted small">لديك حساب بالفعل؟ </span>
+                        <a asp-action="Login" class="small text-primary fw-bold text-decoration-none">سجّل الدخول</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Toggle password visibility helpers
+    function toggleVis(inputId, iconId) {
+        const inp = document.getElementById(inputId);
+        const ic  = document.getElementById(iconId);
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+        ic.classList.toggle('bi-eye');
+        ic.classList.toggle('bi-eye-slash');
+    }
+    document.getElementById('togglePwd').addEventListener('click', () => toggleVis('password','eyePwd'));
+    document.getElementById('toggleConfirmPwd').addEventListener('click', () => toggleVis('confirmPassword','eyeConfirm'));
+
+    // Password strength
+    document.getElementById('password').addEventListener('input', function() {
+        const val = this.value;
+        const bar = document.getElementById('strengthBar');
+        const txt = document.getElementById('strengthText');
+        let score = 0;
+        if (val.length >= 8) score++;
+        if (/[A-Z]/.test(val)) score++;
+        if (/[0-9]/.test(val)) score++;
+        if (/[^A-Za-z0-9]/.test(val)) score++;
+        const levels = [
+            { pct: '25%', cls: 'bg-danger', label: 'ضعيفة جداً' },
+            { pct: '50%', cls: 'bg-warning', label: 'ضعيفة' },
+            { pct: '75%', cls: 'bg-info',    label: 'متوسطة' },
+            { pct: '100%',cls: 'bg-success', label: 'قوية' }
+        ];
+        if (score === 0) { bar.style.width = '0%'; txt.textContent = ''; return; }
+        const l = levels[score - 1];
+        bar.style.width = l.pct;
+        bar.className = 'progress-bar ' + l.cls;
+        txt.textContent = 'قوة كلمة المرور: ' + l.label;
+        txt.className = 'small ' + (score < 3 ? 'text-danger' : score < 4 ? 'text-warning' : 'text-success');
+    });
+
+    // Form submit
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        this.classList.add('was-validated');
+        const pwd = document.getElementById('password').value;
+        const confirm = document.getElementById('confirmPassword');
+        if (pwd !== confirm.value) {
+            confirm.setCustomValidity('لا تتطابق كلمتا المرور');
+            document.getElementById('confirmFeedback').textContent = 'كلمتا المرور غير متطابقتين.';
+        } else {
+            confirm.setCustomValidity('');
+        }
+        if (!this.checkValidity()) return;
+        // TODO: submit logic
+    });
+
+    document.getElementById('confirmPassword').addEventListener('input', function() {
+        if (this.value === document.getElementById('password').value) {
+            this.setCustomValidity('');
+        }
+    });
+</script>
+@section Scripts {
+    <partial name="~/Views/Shared/_NotificationPartial.cshtml" />
+    <partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml" />
+}

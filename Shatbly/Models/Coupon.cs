@@ -11,7 +11,7 @@ namespace Shatbly.Models
 
         [Required]
         [MaxLength(50)]
-        public string Code { get; set; }
+        public string Code { get; set; } = null!;
         [Required]
         [Column(TypeName = "decimal(10,2)")]
         [Range(0.01, double.MaxValue)]
@@ -25,17 +25,17 @@ namespace Shatbly.Models
         public int UsedCount { get; set; } = 0;
 
         [Required]
-        public DateTime ValidFrom { get; set; }
+        public DateTime ValidFrom { get; set; } = DateTime.UtcNow;
 
         [Required]
-        public DateTime ValidUntil { get; set; }
+        public DateTime ValidUntil { get; set; } = DateTime.UtcNow.AddDays(15);
 
         public bool IsActive { get; set; } = true;
 
         public int? CategoryId { get; set; }
         [ForeignKey(nameof(CategoryId))]
-        public  ServiceCategory Category { get; set; }
+        public  ServiceCategory? Category { get; set; } 
 
-        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Booking>? Bookings { get; set; } 
     }
 }

@@ -1,0 +1,97 @@
+﻿@model ResendEmailConfirmationVM   
+
+    <title>Shtbly | شطبلي - إعادة إرسال بريد التأكيد</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+            body { font-family: 'Cairo', sans-serif; background-color: #f8f9fa; }
+            .hero-section {
+                background: linear-gradient(rgba(10, 38, 71, 0.85), rgba(10, 38, 71, 0.85)),
+                            url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070');
+                background-size: cover;
+                padding: 100px 0 160px;
+                color: white;
+                text-align: center;
+            }
+            .auth-card { border: none; border-radius: 25px; overflow: hidden; }
+    </style>
+
+                    <!-- Info Banner -->
+                    <div class="alert alert-info d-flex align-items-start gap-2 mb-4" role="alert">
+                        <i class="bi bi-envelope-exclamation-fill fs-5 mt-1 flex-shrink-0"></i>
+                        <div>
+                            <strong>لم تستلم رسالة التأكيد؟</strong>
+                            <p class="mb-0 small">إذا لم تتمكن من العثور على رسالة التأكيد في بريدك الوارد، يمكنك طلب إعادة الإرسال من هنا.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-info bg-opacity-10 text-info rounded-circle mb-3" style="width:70px;height:70px;font-size:2rem;">
+                            <i class="bi bi-envelope-arrow-up-fill"></i>
+                        </div>
+                        <h2 class="fw-bold mb-1">إعادة إرسال التأكيد</h2>
+                        <p class="text-muted small">سنرسل لك رابط تأكيد جديد على بريدك الإلكتروني.</p>
+                    </div>
+
+                    <form asp-action="ResendEmailConfirmation">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="mb-4">
+                            <label  asp-for="EmailOrUserName" class="form-label fw-bold">البريد الإلكتروني أو اسم المستخدم</label>
+                            <div class="input-group">
+                               
+                                <input  asp-for="EmailOrUserName"  type="text" class="form-control border-start-0 ps-0" id="emailOrUsername" name="emailOrUsername"
+                                       placeholder="example@mail.com أو username123" required autocomplete="email username">
+                                                       <span asp-validation-for="EmailOrUserName" class="text-danger"></span>
+
+                                <div class="invalid-feedback">هذا الحقل مطلوب.</div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-info fw-bold py-2 text-white" style="border-radius:12px;" id="submitBtn">
+                                <i class="bi bi-send me-1"></i> إعادة الإرسال
+                            </button>
+                        </div>
+
+                        <div class="text-center">
+                            <a asp-action="Login" class="small text-primary text-decoration-none fw-bold">
+                                <i class="bi bi-arrow-right me-1"></i> العودة إلى تسجيل الدخول
+                            </a>
+                        </div>
+                    </form>
+
+                    <!-- Steps guide -->
+                    <hr class="my-4 opacity-25">
+                    <p class="small fw-bold text-dark mb-2"><i class="bi bi-list-check text-primary me-1"></i> خطوات التأكيد:</p>
+                    <ol class="small text-muted ps-3 mb-0">
+                        <li class="mb-1">أدخل بريدك الإلكتروني أو اسم المستخدم.</li>
+                        <li class="mb-1">افتح البريد الوارد وابحث عن رسالة من Shtbly.</li>
+                        <li>اضغط على رابط التأكيد الموجود في الرسالة.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('resendForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (!this.checkValidity()) { this.classList.add('was-validated'); return; }
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> جاري الإرسال...';
+        // Simulate async
+        setTimeout(() => {
+        document.getElementById('successAlert').classList.remove('d-none');
+        btn.innerHTML = '<i class="bi bi-check-lg me-1"></i> تم الإرسال';
+        btn.classList.replace('btn-info','btn-success');
+        }, 1500);
+        });
+    </script>
+    @section Scripts {
+    <partial name="~/Views/Shared/_NotificationPartial.cshtml" />
+    <partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml" />
+}

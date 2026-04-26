@@ -1,0 +1,181 @@
+﻿@model BannersVM
+
+<div class="container">
+
+    <div class="row mb-3 align-items-center my-3">
+        <div class="col-md-6">
+            <h3 class="display-6">All Banners</h3>
+        </div>
+        <!-- Create -->
+        <div class="col-md-6 text-md-end text-start mt-2 mt-md-0">
+            <a href="/Admin/Baner/Create" class="btn btn-success">
+                + Create New
+            </a>
+        </div>
+    </div>
+    <section class="py-3 filter-bar">
+        <div class="container">
+            <div class="row" style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important">
+                <div class="col-md-6">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="text" name="title" value="@ViewData["CurrentFilter"]" class="form-control me-2" placeholder="title..." />
+                            </div>
+                            <div class="col-md-2 ">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </section>
+
+     
+
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">LinkUrl</th>
+                            <th scope="col">Target</th>
+                            <th scope="col">StartDate</th>
+                            <th scope="col">EndDate</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Banners)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Title</td>
+                                <td>
+                                    <img src="~/img/banners/@item.ImageUrl" width="100px" />
+                                </td>
+                                <td>@item.LinkUrl</td>
+                                <td>@item.Target</td>
+                                <td>@item.StartDate</td>
+                                <td>@item.EndDate</td>
+                                @if (item.IsActive)
+                                {
+                                    <td>
+                                        <span class="badge bg-success">Active</span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    </td>
+                                }
+	
+                                <td>
+                                    <!-- Read -->
+                                    <a asp-action="Details" asp-route-id=""
+                                           class="btn btn-sm btn-outline-primary">
+                                        Details
+                                    </a>
+
+                                    @if (User.IsInRole(SD.ROLE_SUPER_ADMIN))
+                                    {
+                                        <!-- Update -->
+                                        <a href="/Admin/Baner/Edit/@item.Id"
+                                               class="btn btn-sm btn-outline-warning">
+                                            Edit
+                                        </a>
+
+                                        <!-- Delete -->
+                                        <a href="/Admin/Baner/Delete/@item.Id"
+                                               class="btn btn-sm btn-outline-danger">
+                                            Delete
+                                        </a>
+                                    }
+                                    else
+                                    {
+
+                                        <td>
+                                            No Actions Available!!
+                                        </td>
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        @if (Model.CurrentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="/Admin/Baner/Index?page=@(Model.CurrentPage - 1)">Previous</a>
+                            </li>
+                        }
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            if (i == Model.CurrentPage)
+                            {
+                                <li class="page-item active">
+                                    <a class="page-link" href="/Admin/Baner/Index?page=@i">@i</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="/Admin/Baner/Index?page=@i">@i</a>
+                                </li>
+                            }
+                        }
+                        @if (Model.CurrentPage < Model.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="/Admin/Baner/Index?page=@(Model.CurrentPage + 1)">Next</a>
+                            </li>
+                        }
+                 
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const deleteLinks = document.querySelectorAll('a.btn-outline-danger');
+            deleteLinks.forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const url = this.href;
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = url;
+                        }
+                    });
+                });
+            });
+        });
+    </script>

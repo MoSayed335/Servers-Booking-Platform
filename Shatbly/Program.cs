@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+<<<<<<< HEAD
 using Shatbly.DataAccess;
+=======
+>>>>>>> 25e986e37d57eddf52a865035ac65f84831b4598
 using Shatbly.Utilities.Dbintializes;
 
 namespace Shatbly
@@ -12,6 +15,10 @@ namespace Shatbly
         {
             var builder = WebApplication.CreateBuilder(args);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 25e986e37d57eddf52a865035ac65f84831b4598
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -41,6 +48,20 @@ namespace Shatbly
 
             builder.Services.AddScoped<IDbintialize, Dbintialize>();
             builder.Services.AddScoped<IRepository<OTP_Verification>, Repository<OTP_Verification>>();
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IRepository<WorkerProfile> , Repository<WorkerProfile>>();
+
+            builder.Services.AddScoped<IDbintialize, Dbintialize>();
+            builder.Services.AddScoped<IRepository<User>, Repository<User>>();
+            builder.Services.AddScoped<IRepository<WorkerProfile>, Repository<WorkerProfile>>();
+            builder.Services.AddScoped<IRepository<Address>, Repository<Address>>();
+             builder.Services.AddScoped<IRepository<Booking>, Repository<Booking>>();
+             builder.Services.AddScoped<IRepository<Coupon>, Repository<Coupon>>();
+             builder.Services.AddScoped<IRepository<PromotionCode>, Repository<PromotionCode>>();
+            builder.Services.AddScoped<IRepository<Banner>, Repository<Banner>>();
+            builder.Services.AddScoped<IRepository<WorkerService>, Repository<WorkerService>>();
+            builder.Services.AddScoped<IRepository<ServiceCategory>, Repository<ServiceCategory>>();
 
             builder.Services.AddScoped<IAccountService, Services.AccountService>();
 
@@ -59,8 +80,14 @@ namespace Shatbly
             app.UseHttpsRedirection();
             app.UseRouting();
             var scope = app.Services.CreateScope();
+<<<<<<< HEAD
             var dbintialize = scope.ServiceProvider.GetRequiredService<IDbintialize>();
             dbintialize.Intializer().Wait();
+=======
+            var Service = scope.ServiceProvider.GetService<IDbintialize>();
+            Service.Intializer();
+
+>>>>>>> 25e986e37d57eddf52a865035ac65f84831b4598
             app.UseAuthorization();
 
             app.MapStaticAssets();

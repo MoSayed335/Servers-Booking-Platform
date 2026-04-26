@@ -8,3 +8,7 @@ global using Shatbly.Repositories;
 global using Shatbly.Repositories.IRepositories;
 global using Shatbly.Services;
 global using Shatbly.Services.IServices;
+<<<<<<< HEAD
+=======
+global using Microsoft.AspNetCore.Identity;
+>>>>>>> 25e986e37d57eddf52a865035ac65f84831b4598

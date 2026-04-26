@@ -1,0 +1,203 @@
+﻿@model ValidateOTPVM
+
+    <title>Shtbly | شطبلي - التحقق من الهوية</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8f9fa; }
+        .hero-section {
+            background: linear-gradient(rgba(10, 38, 71, 0.85), rgba(10, 38, 71, 0.85)),
+                        url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070');
+            background-size: cover;
+            padding: 100px 0 160px;
+            color: white;
+            text-align: center;
+        }
+        .auth-card { border: none; border-radius: 25px; overflow: hidden; }
+        /* OTP digit boxes */
+        .otp-input {
+            width: 52px !important;
+            height: 60px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 12px !important;
+            border: 2px solid #dee2e6;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .otp-input:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,.15);
+            outline: none;
+        }
+        .otp-input.is-invalid { border-color: #dc3545; }
+        .otp-input.is-valid   { border-color: #198754; }
+        /* Countdown timer */
+        #countdown { font-variant-numeric: tabular-nums; }
+    </style>
+
+
+<section class="container" style="margin-top: -80px;">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card auth-card shadow-lg p-4 p-md-5">
+
+      
+
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle mb-3" style="width:70px;height:70px;font-size:2rem;">
+                        <i class="bi bi-patch-check-fill"></i>
+                    </div>
+                    <h2 class="fw-bold mb-1">التحقق من الرمز</h2>
+                    <p class="text-muted small mb-0">أدخل الرمز المكوّن من 6 أرقام الذي أُرسل إليك.</p>
+                    <p class="text-muted small"><i class="bi bi-envelope me-1"></i>تم الإرسال إلى بريدك الإلكتروني المسجّل.</p>
+                </div>
+
+                <form asp-action="ValidateOTP" method="post" novalidate id="verifyForm" autocomplete="off">
+                   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="UserId" />
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold d-block text-center mb-3">رمز التحقق (OTP)</label>
+
+                        <!-- 6 individual OTP digit inputs -->
+                        <div class="d-flex justify-content-center gap-2 flex-wrap" id="otpContainer" role="group" aria-label="رمز التحقق المكون من 6 أرقام">
+                            <input type="text" class="form-control otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="الرقم 1" id="otp0" autocomplete="one-time-code">
+                            <input type="text" class="form-control otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="الرقم 2" id="otp1">
+                            <input type="text" class="form-control otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="الرقم 3" id="otp2">
+                            <input type="text" class="form-control otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="الرقم 4" id="otp3">
+                            <input type="text" class="form-control otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="الرقم 5" id="otp4">
+                            <input type="text" class="form-control otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="الرقم 6" id="otp5">
+                        </div>
+
+                        <!-- Hidden combined input for form submission -->
+                        <input type="hidden" asp-for="OTP">
+                        <div class="text-center mt-2 d-none text-danger small" id="otpError">يرجى إدخال الرمز المكوّن من 6 أرقام كاملاً.</div>
+                    </div>
+
+                    <!-- Countdown timer -->
+                    <div class="text-center mb-4">
+                        <div id="timerSection">
+                            <p class="small text-muted mb-1">ينتهي الرمز خلال:</p>
+                            <span class="badge bg-primary fs-6 px-3 py-2" id="countdown">05:00</span>
+                        </div>
+                        <div id="expiredSection" class="d-none">
+                            <p class="small text-danger mb-1"><i class="bi bi-clock-history me-1"></i>انتهت صلاحية الرمز.</p>
+                            <a asp-action="ResendOTP" class="btn btn-outline-primary btn-sm fw-bold" id="resendBtn" style="border-radius:8px;">
+                                <i class="bi bi-arrow-clockwise me-1"></i> إعادة الإرسال
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary fw-bold py-2" style="border-radius:12px;" id="submitBtn">
+                            <i class="bi bi-patch-check me-1"></i> تأكيد الرمز
+                        </button>
+                    </div>
+
+                    <div class="text-center">
+                        <a asp-action="Login" class="small text-primary text-decoration-none fw-bold">
+                            <i class="bi bi-arrow-right me-1"></i> العودة إلى تسجيل الدخول
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Populate userId from URL
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('userId')) document.getElementById('userId').value = params.get('userId');
+
+    // OTP input navigation
+    const otpInputs = Array.from(document.querySelectorAll('.otp-input'));
+    otpInputs.forEach((inp, i) => {
+        inp.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g,'').slice(-1);
+            this.classList.remove('is-invalid');
+            if (this.value && i < 5) otpInputs[i+1].focus();
+            updateHiddenCode();
+        });
+        inp.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && !this.value && i > 0) {
+                otpInputs[i-1].focus();
+                otpInputs[i-1].value = '';
+                updateHiddenCode();
+            }
+            if (e.key === 'ArrowLeft'  && i > 0) { e.preventDefault(); otpInputs[i-1].focus(); }
+            if (e.key === 'ArrowRight' && i < 5) { e.preventDefault(); otpInputs[i+1].focus(); }
+        });
+        inp.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g,'');
+            pasted.split('').slice(0,6).forEach((ch, j) => {
+                if (otpInputs[i+j]) { otpInputs[i+j].value = ch; otpInputs[i+j].classList.remove('is-invalid'); }
+            });
+            const next = Math.min(i + pasted.length, 5);
+            otpInputs[next].focus();
+            updateHiddenCode();
+        });
+    });
+
+    function updateHiddenCode() {
+        document.getElementById('code').value = otpInputs.map(i=>i.value).join('');
+    }
+
+    // Countdown timer (5 min)
+    let seconds = 300;
+    const countdownEl = document.getElementById('countdown');
+    const timerSection = document.getElementById('timerSection');
+    const expiredSection = document.getElementById('expiredSection');
+    const timer = setInterval(() => {
+        seconds--;
+        if (seconds <= 0) {
+            clearInterval(timer);
+            timerSection.classList.add('d-none');
+            expiredSection.classList.remove('d-none');
+            document.getElementById('submitBtn').disabled = true;
+            return;
+        }
+        const m = String(Math.floor(seconds/60)).padStart(2,'0');
+        const s = String(seconds%60).padStart(2,'0');
+        countdownEl.textContent = m+':'+s;
+        if (seconds <= 60) countdownEl.classList.replace('bg-primary','bg-danger');
+    }, 1000);
+
+    // Resend
+    document.getElementById('resendBtn').addEventListener('click', function() {
+        seconds = 300;
+        countdownEl.textContent = '05:00';
+        countdownEl.classList.replace('bg-danger','bg-primary');
+        timerSection.classList.remove('d-none');
+        expiredSection.classList.add('d-none');
+        document.getElementById('submitBtn').disabled = false;
+        otpInputs.forEach(i => { i.value=''; i.classList.remove('is-invalid','is-valid'); });
+        otpInputs[0].focus();
+        // TODO: resend API call
+    });
+
+    // Form submit
+    document.getElementById('verifyForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const code = document.getElementById('code').value;
+        const errEl = document.getElementById('otpError');
+        if (code.length < 6) {
+            otpInputs.forEach(i => { if(!i.value) i.classList.add('is-invalid'); });
+            errEl.classList.remove('d-none');
+            return;
+        }
+        errEl.classList.add('d-none');
+        otpInputs.forEach(i => i.classList.add('is-valid'));
+        // TODO: submit logic
+    });
+</script>
+@section Scripts {
+    <partial name="~/Views/Shared/_NotificationPartial.cshtml" />
+    <partial name="~/Views/Shared/_ValidationScriptsPartial.cshtml" />
+}

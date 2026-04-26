@@ -1,0 +1,94 @@
+@using Shatbly.ViewModels
+@model WorkerProfilesVM
+
+@{
+    ViewData["Title"] = "Create Worker Profile";
+}
+
+<div class="container-fluid">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <h3 class="mb-0">Create Worker Profile</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="UserId" class="form-label"></label>
+                        <select asp-for="UserId" class="form-select">
+                            <option value="">-- Select User --</option>
+                            @if (Model?.Users is not null)
+                            {
+                                foreach (var user in Model.Users)
+                                {
+                                    <option value="@user.Id">@user.FName @user.LName (@user.Email)</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="UserId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="InterviewDate" class="form-label"></label>
+                        <input asp-for="InterviewDate" type="date" class="form-control" />
+                        <span asp-validation-for="InterviewDate" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <label asp-for="Bio" class="form-label"></label>
+                        <textarea asp-for="Bio" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Bio" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label asp-for="HRNotes" class="form-label"></label>
+                        <textarea asp-for="HRNotes" class="form-control" rows="2"></textarea>
+                        <span asp-validation-for="HRNotes" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label asp-for="CVFile" class="form-label"></label>
+                        <input asp-for="CVFile" type="file" class="form-control" accept=".pdf,.doc,.docx" />
+                        <span asp-validation-for="CVFile" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-check mt-md-4">
+                            <input asp-for="IsVerified" class="form-check-input" />
+                            <label asp-for="IsVerified" class="form-check-label"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check mt-md-4">
+                            <input asp-for="IsAvailable" class="form-check-input" />
+                            <label asp-for="IsAvailable" class="form-check-label"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check mt-md-4">
+                            <input asp-for="AcceptsOnline" class="form-check-input" />
+                            <label asp-for="AcceptsOnline" class="form-check-label"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check mt-md-4">
+                            <input asp-for="IsApproved" class="form-check-input" />
+                            <label asp-for="IsApproved" class="form-check-label"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_NotificationPartial" />
+}

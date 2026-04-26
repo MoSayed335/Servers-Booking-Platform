@@ -23,6 +23,10 @@ namespace Shatbly.Models
         public bool AcceptsOnline { get; set; } = false;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public string? CVPath { get; set; }
+        public bool IsApproved { get; set; }
+        public DateTime? InterviewDate { get; set; }
+        public string? HRNotes { get; set; }
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
         public User User { get; set; }

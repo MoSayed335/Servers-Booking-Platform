@@ -1,0 +1,18 @@
+﻿@model dynamic
+<div class="col-12 col-sm-6 col-xl-3">
+    <div class="stat-card">
+        <div class="stat-card-top">
+            <div>
+                <span class="stat-label">@Model.Title</span>
+                <h3 class="stat-value">@Model.Value</h3>
+            </div>
+            <div class="stat-icon @Model.IconBgClass">
+                <i class="@Model.Icon"></i>
+            </div>
+        </div>
+        <div class="stat-footer">
+            <span class="@Model.TrendClass">@Model.Trend</span>
+            <small>vs last month</small>
+        </div>
+    </div>
+</div>
